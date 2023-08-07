@@ -7,17 +7,9 @@ class EmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        elevation: 0,
         title: const Text(
           "Sign up",
-          style: TextStyle(
-            fontSize: Sizes.size16,
-            fontWeight: FontWeight.w600,
-          ),
         ),
       ),
     );
