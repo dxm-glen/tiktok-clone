@@ -8,22 +8,22 @@ import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 class LoginSCreen extends StatelessWidget {
   const LoginSCreen({super.key});
 
-  void onSignupTap(BuildContext context) {
+  void _onSignupTap(BuildContext context) {
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: Sizes.size40,
           ),
           child: Column(
             children: [
               Gaps.v80,
-              Text(
+              const Text(
                 "Log in to TikTok",
                 style: TextStyle(
                   fontSize: Sizes.size24,
@@ -31,7 +31,7 @@ class LoginSCreen extends StatelessWidget {
                 ),
               ),
               Gaps.v20,
-              Text(
+              const Text(
                 "Manage your account, check notifications, comment on videos, and more.",
                 style: TextStyle(
                   fontSize: Sizes.size16,
@@ -42,10 +42,12 @@ class LoginSCreen extends StatelessWidget {
               ),
               Gaps.v40,
               AuthButton(
+                  onTapFunction: (context) {},
                   icon: FaIcon(FontAwesomeIcons.user),
                   text: "Use email & password"),
               Gaps.v16,
               AuthButton(
+                  onTapFunction: (context) {},
                   icon: FaIcon(FontAwesomeIcons.apple),
                   text: "Continue with Apple"),
             ],
@@ -61,7 +63,7 @@ class LoginSCreen extends StatelessWidget {
             const Text("Don't have an account?"),
             Gaps.h5,
             GestureDetector(
-              onTap: () => onSignupTap(context),
+              onTap: () => _onSignupTap(context),
               child: Text(
                 'Sign up',
                 style: TextStyle(
