@@ -13,10 +13,13 @@ class LoginFromScreen extends StatefulWidget {
 class _LoginFromScreenState extends State<LoginFromScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  Map<String, String> formData = {};
+
   void _onSubmitTap() {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        print(formData);
       }
     }
   }
@@ -54,7 +57,11 @@ class _LoginFromScreenState extends State<LoginFromScreen> {
 
                   return null; // 올바른 입력인 경우
                 },
-                onSaved: (newValue) => print(newValue),
+                onSaved: (newValue) {
+                  if (newValue != null) {
+                    formData["email"] = newValue;
+                  }
+                },
               ),
               Gaps.v16,
               TextFormField(
@@ -73,7 +80,11 @@ class _LoginFromScreenState extends State<LoginFromScreen> {
 
                   return null; // 올바른 입력인 경우
                 },
-                onSaved: (newValue) => print(newValue),
+                onSaved: (newValue) {
+                  if (newValue != null) {
+                    formData["password"] = newValue;
+                  }
+                },
               ),
               Gaps.v28,
               GestureDetector(
