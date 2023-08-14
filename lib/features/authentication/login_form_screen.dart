@@ -14,7 +14,11 @@ class _LoginFromScreenState extends State<LoginFromScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _onSubmitTap() {
-    _formKey.currentState?.validate();
+    if (_formKey.currentState != null) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+      }
+    }
   }
 
   @override
@@ -50,6 +54,7 @@ class _LoginFromScreenState extends State<LoginFromScreen> {
 
                   return null; // 올바른 입력인 경우
                 },
+                onSaved: (newValue) => print(newValue),
               ),
               Gaps.v16,
               TextFormField(
@@ -68,6 +73,7 @@ class _LoginFromScreenState extends State<LoginFromScreen> {
 
                   return null; // 올바른 입력인 경우
                 },
+                onSaved: (newValue) => print(newValue),
               ),
               Gaps.v28,
               GestureDetector(
