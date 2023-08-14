@@ -39,8 +39,12 @@ class _EmailScreenState extends State<EmailScreen> {
 
   String? _isEmailValid() {
     if (_email.isEmpty) return null;
-    // perform some val.
-    return "Not Valid";
+    final regExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!regExp.hasMatch(_email)) {
+      return "Email not valid";
+    }
+    return null;
   }
 
   @override
@@ -67,6 +71,8 @@ class _EmailScreenState extends State<EmailScreen> {
             Gaps.v16,
             TextField(
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              autocorrect: false,
               cursorColor: Theme.of(context).primaryColor,
               decoration: InputDecoration(
                 hintText: "Email",
