@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/birthday_screen.dart';
 
 import 'widgets/FormButton.dart';
 
@@ -16,6 +17,7 @@ class _EmailScreenState extends State<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   String _password = "";
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -38,14 +40,8 @@ class _EmailScreenState extends State<PasswordScreen> {
     super.dispose();
   }
 
-  String? _isPasswordValid() {
-    if (_password.isEmpty) return null;
-    final regExp = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    if (!regExp.hasMatch(_password)) {
-      return "Email not valid";
-    }
-    return null;
+  bool _isPasswordValid() {
+    return _password.isNotEmpty && _password.length > 8;
   }
 
   void _onScaffoldTap() {
@@ -53,17 +49,22 @@ class _EmailScreenState extends State<PasswordScreen> {
   }
 
   void _onSubmit() {
-    if (_password.isEmpty || _isPasswordValid() != null) return;
+    if (!_isPasswordValid()) return;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const PasswordScreen(),
+        builder: (context) => const BirthdayScreen(),
       ),
     );
   }
 
   void _onClearTap() {
     _passwordController.clear();
+  }
+
+  void _toggleObscureText() {
+    _obscureText = !_obscureText;
+    setState(() {});
   }
 
   @override
@@ -93,6 +94,7 @@ class _EmailScreenState extends State<PasswordScreen> {
               TextField(
                 controller: _passwordController,
                 onEditingComplete: _onSubmit,
+                obscureText: _obscureText,
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   suffix: Row(
@@ -107,15 +109,19 @@ class _EmailScreenState extends State<PasswordScreen> {
                         ),
                       ),
                       Gaps.h16,
-                      FaIcon(
-                        FontAwesomeIcons.eye,
-                        color: Colors.grey.shade400,
-                        size: Sizes.size20,
+                      GestureDetector(
+                        onTap: _toggleObscureText,
+                        child: FaIcon(
+                          _obscureText == true
+                              ? FontAwesomeIcons.eye
+                              : FontAwesomeIcons.eyeSlash,
+                          color: Colors.grey.shade400,
+                          size: Sizes.size20,
+                        ),
                       ),
                     ],
                   ),
                   hintText: "Make it strong",
-                  errorText: _isPasswordValid(),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.grey.shade400,
@@ -128,11 +134,31 @@ class _EmailScreenState extends State<PasswordScreen> {
                   ),
                 ),
               ),
+              Gaps.v10,
+              const Text(
+                'Your password bust have: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Gaps.v10,
+              Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.circleCheck,
+                    size: Sizes.size20,
+                    color: _isPasswordValid()
+                        ? Colors.green
+                        : Colors.grey.shade400,
+                  ),
+                  Gaps.h5,
+                  const Text('8 to 20 characters')
+                ],
+              ),
               Gaps.v16,
               GestureDetector(
                 onTap: _onSubmit,
-                child: FormButton(
-                    disabled: _password.isEmpty || _isPasswordValid() != null),
+                child: FormButton(disabled: !_isPasswordValid()),
               )
             ],
           ),
